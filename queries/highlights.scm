@@ -1,5 +1,5 @@
 "fun f() = 2" @keyword
 
-(typeExpression) @type
 (lambdaParameters) @string
+(typeExpression) @type
 (integer) @number
