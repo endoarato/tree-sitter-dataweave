@@ -147,9 +147,10 @@ module.exports = grammar({
 
     array: $ => seq(
       "[",
-      repeat($.expression),
+      commaSep($.expression),
       "]"
     ),
+
     object: $ => seq(
       "{",
       seq(
@@ -321,13 +322,12 @@ module.exports = grammar({
 
 
 function commaSep1(rule) {
-  return seq(rule, repeat(seq(",", rule)))
+  return sep1(rule, ",")
 }
 
 function commaSep(rule) {
   return optional(commaSep1(rule))
 }
-
 
 function sep1(rule, separator) {
   return seq(rule, repeat(seq(separator, rule)));

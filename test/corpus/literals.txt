@@ -79,7 +79,7 @@ fun f() = 2
 Incomplete
 ================================================================================
 
-(a: String) -> [
+(a: String) -> [1
 
 --------------------------------------------------------------------------------
 
@@ -98,4 +98,39 @@ Incomplete
           (expression
             (value
               (array
+                (expression
+                  (value
+                    (literal
+                      (numberLiteral
+                        (integer)))))
                 (MISSING "]")))))))))
+
+================================================================================
+Incomplete2
+================================================================================
+
+[ 1, 2, 3
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (mapping
+    (expression
+      (value
+        (array
+          (expression
+            (value
+              (literal
+                (numberLiteral
+                  (integer)))))
+          (expression
+            (value
+              (literal
+                (numberLiteral
+                  (integer)))))
+          (expression
+            (value
+              (literal
+                (numberLiteral
+                  (integer)))))
+          (MISSING "]"))))))
