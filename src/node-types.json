@@ -1,11 +1,885 @@
 [
   {
-    "type": "source_file",
+    "type": "array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "closedObject",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "keyValuePairType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "directive",
     "named": true,
     "fields": {}
   },
   {
-    "type": "hello",
+    "type": "enclosedTypeExpression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "exp",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "frac",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "fullyQualifiedName",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nameIdentifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "functionType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "functionTypeParameter",
+          "named": true
+        },
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "functionTypeParameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "nameIdentifier",
+          "named": true
+        },
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "header",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "directive",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "integer",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "intersectionType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "key",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "stringLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "keyType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anyNameType",
+          "named": true
+        },
+        {
+          "type": "nameValueType",
+          "named": true
+        },
+        {
+          "type": "nameWithPrefix",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "keyValuePairType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "keyType",
+          "named": true
+        },
+        {
+          "type": "typeExpression",
+          "named": true
+        },
+        {
+          "type": "typeReferenceLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lambdaLiteral",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "lambdaParameters",
+          "named": true
+        },
+        {
+          "type": "typeExpression",
+          "named": true
+        },
+        {
+          "type": "typeParametersList",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lambdaParameters",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "falseLiteral",
+          "named": true
+        },
+        {
+          "type": "nullLiteral",
+          "named": true
+        },
+        {
+          "type": "numberLiteral",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "trueLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literalType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "falseLiteral",
+          "named": true
+        },
+        {
+          "type": "numberLiteral",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "trueLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapping",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "header",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nameValueType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "anyNameType",
+          "named": true
+        },
+        {
+          "type": "nameWithPrefix",
+          "named": true
+        },
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nameWithPrefix",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "nameIdentifier",
+          "named": true
+        },
+        {
+          "type": "namedString",
+          "named": true
+        },
+        {
+          "type": "namespace",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "namedString",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "stringLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "namespace",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nameIdentifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "numberLiteral",
+    "named": true,
+    "fields": {
+      "integer": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "integer",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "exp",
+          "named": true
+        },
+        {
+          "type": "frac",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "object",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "key",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "objectTypeExpression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "closedObject",
+          "named": true
+        },
+        {
+          "type": "orderedObject",
+          "named": true
+        },
+        {
+          "type": "simpleObject",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "orderedObject",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "keyValuePairType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "nameIdentifier",
+          "named": true
+        },
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "simpleObject",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "keyValuePairType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "mapping",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typeExpression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "enclosedTypeExpression",
+          "named": true
+        },
+        {
+          "type": "functionType",
+          "named": true
+        },
+        {
+          "type": "intersectionType",
+          "named": true
+        },
+        {
+          "type": "literalType",
+          "named": true
+        },
+        {
+          "type": "objectTypeExpression",
+          "named": true
+        },
+        {
+          "type": "typeReferenceLiteral",
+          "named": true
+        },
+        {
+          "type": "unionType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typeParameterType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "nameIdentifier",
+          "named": true
+        },
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typeParametersList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "typeParameterType",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "typeReferenceLiteral",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "fullyQualifiedName",
+          "named": true
+        },
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unary_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unionType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "lambdaLiteral",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "nameIdentifier",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "&",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": ",",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": "---",
+    "named": false
+  },
+  {
+    "type": "->",
+    "named": false
+  },
+  {
+    "type": "-}",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<:",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "?",
+    "named": false
+  },
+  {
+    "type": "@",
+    "named": false
+  },
+  {
+    "type": "E",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "anyNameType",
+    "named": true
+  },
+  {
+    "type": "block_comment",
+    "named": true
+  },
+  {
+    "type": "e",
+    "named": false
+  },
+  {
+    "type": "falseLiteral",
+    "named": true
+  },
+  {
+    "type": "fun f() = 2",
+    "named": false
+  },
+  {
+    "type": "line_comment",
+    "named": true
+  },
+  {
+    "type": "nameIdentifier",
+    "named": true
+  },
+  {
+    "type": "not ",
+    "named": false
+  },
+  {
+    "type": "nullLiteral",
+    "named": true
+  },
+  {
+    "type": "stringLiteral",
+    "named": true
+  },
+  {
+    "type": "trueLiteral",
+    "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "{-",
+    "named": false
+  },
+  {
+    "type": "{|",
+    "named": false
+  },
+  {
+    "type": "|",
+    "named": false
+  },
+  {
+    "type": "|}",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   }
 ]

@@ -1,6 +1,7 @@
 const DIGITS = token(sep1(/[0-9]+/, /_+/))
 const PREC = {
-  UNARY: 2
+  UNARY: 2,
+  COMMENT: 10,
 }
 
 module.exports = grammar({
@@ -20,19 +21,19 @@ module.exports = grammar({
     ),
 
     mapping: $ => seq(
-      optional(
+      optional(seq(
         $.header,
-      ),
-      $.expression
+        '---'
+      )),
+      field('body', $.expression)
     ),
 
-    header: $ => optional(seq(
+    header: $ => 
       repeat1(
         $.directive
       ),
-      '---'
-    )),
-    directive: $ => choice(
+
+      directive: $ => choice(
       // $.versionDirective,
       // $.inputDirective,
       // $.outputDirective,
@@ -53,9 +54,10 @@ module.exports = grammar({
     //     (lambdaLiteral | singleKeyValuePairObj | atomic(variable ~ optional(ws ~ customInterpolation)) | literal | multipleKeyValuePairObj | array | parentBasedExpr) ~ optional(ws ~ functionCall) ~ optional(selectors)
     value: $ => choice(
       $.lambdaLiteral,
-      $.literal,
       $.array,
-      $.object
+      $.literal,
+      $.object,
+      $.nameIdentifier
     ),
     
     //    pushPosition ~ optional(typeParametersList) ~ ws ~ lambdaParameters ~ ws ~ optional(objFieldSep ~ !objFieldSep ~ typeExpression) ~ ws ~ lambdaMark ~!~ ws ~ (expr | missingExpression("Missing Lambda Expression.")) ~> createFunctionNode ~ injectPosition
@@ -114,13 +116,13 @@ module.exports = grammar({
       // $.dateLiteral
     ),
     numberLiteral: $ => seq(
-      $.integer,
+      field("integer", $.integer),
       optional($.frac),
       optional($.exp)
     ),
     integer: $ => seq(
-      optional("-"),
-      DIGITS
+      // optional("-"), TODO
+      field("integer_digits",DIGITS)
     ),
     frac: $ => seq(
       ".",
@@ -157,6 +159,7 @@ module.exports = grammar({
       ),
       "}"
     ),
+    key: $ => $.stringLiteral, //TODO
 
     typeExpression: $ => choice(
       // TODO schemas
@@ -170,13 +173,13 @@ module.exports = grammar({
       $.literalType
     ),
 
-    unionType: $ => seq($.typeExpression, repeat(seq("|", $.typeExpression))),
+    unionType: $ => prec.left(1, seq($.typeExpression, repeat1(seq("|", $.typeExpression)))),
 
-    intersectionType: $ => seq($.typeExpression, repeat(seq("&", $.typeExpression))),
+    intersectionType: $ => prec.left(1, seq($.typeExpression, repeat1(seq("&", $.typeExpression)))),
 
     
     //    pushPosition ~ ((ch('{') ~!~ (exactObject | orderedObject | simpleObject) ~ ch('}')) ~ optional(ws ~ schema) ~> injectSchemaToWeaveType) ~ injectPosition
-    objectTypeExpression: $ => optional(
+    objectTypeExpression: $ => choice(
       $.closedObject,
       $.orderedObject,
       $.simpleObject
@@ -209,7 +212,7 @@ module.exports = grammar({
         $.keyType
       ),
       optional('*'),
-      optionla('?'),
+      optional('?'),
       ':',
       $.typeExpression
     ),
@@ -222,6 +225,8 @@ module.exports = grammar({
         '>'
       ))
     ),
+
+    fullyQualifiedName: $ => $.nameIdentifier, //TODO: FIXME
     
     keyType: $ => seq(
       choice($.nameWithPrefix, $.anyNameType),
@@ -240,11 +245,11 @@ module.exports = grammar({
     ),
 
     nameWithPrefix: $ => seq(
-      $.namespace,
+      optional($.namespace),
       choice($.nameIdentifier, $.namedString)
     ),
 
-    namespace: $ => optional(seq($.nameIdentifier, '#')),
+    namespace: $ => seq($.nameIdentifier, '#'),
 
     nameIdentifier: $ => {
       // Copied, check
@@ -255,13 +260,20 @@ module.exports = grammar({
 
     namedString: $ => $.stringLiteral,
 
-    anyNameType: '_',
+    anyNameType: $ => '_',
 
     functionType: $ => seq(
       '(',
       commaSep($.functionTypeParameter),
       ')',
       '->',
+      $.typeExpression
+    ),
+
+    functionTypeParameter: $ => seq(
+      $.nameIdentifier,
+      optional('?'),
+      ':',
       $.typeExpression
     ),
 
