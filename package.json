@@ -17,5 +17,14 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.6"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "source.dataweave",
+      "file-types": [
+        "dwl"
+      ],
+      "first-line-regex": ".*"
+    }
+  ]
 }
