@@ -1,0 +1,53 @@
+================
+True
+================
+
+true
+
+---
+
+(source_file
+  (mapping
+    (body
+      true
+    )
+  )
+)
+
+
+================
+False
+================
+false
+---
+(source_file
+  (mapping
+    (body
+      false
+    )
+  )
+)
+
+================
+Null
+================
+null
+---
+(source_file
+  (mapping
+    (body
+      false
+    )
+  )
+)
+
+================
+Error
+================
+
+hello2
+
+---
+(source_file
+      (ERROR
+        (UNEXPECTED '2')))
