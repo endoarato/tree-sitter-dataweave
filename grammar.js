@@ -2,15 +2,20 @@ const DIGITS = token(sep1(/[0-9]+/, /_+/))
 const PREC = {
   UNARY: 2,
   COMMENT: 10,
+  FUNCTION_CALL: 15,
 }
 
 module.exports = grammar({
-  name: 'DataWeave',
+  name: 'dataweave',
 
   extras: $ => [
     $.line_comment,
     $.block_comment,
     /\s/
+  ],
+
+  conflicts: $ => [
+    [$.parameter, $.value]
   ],
   
   rules: {
@@ -33,23 +38,51 @@ module.exports = grammar({
         $.directive
       ),
 
-      directive: $ => choice(
-      // $.versionDirective,
+    directive: $ => choice(
+      $.versionDirective,
       // $.inputDirective,
       // $.outputDirective,
       // $.typeDirective,
-      // $.varDirective,
+      $.varDirective,
       // $.functionDirective,
       // $.importDirective,
       // $.annotationDirective
       "fun f() = 2"
     ),
 
+    versionDirective: $ => seq("%dw", /\\d+(?:\\.\\d+)*/),
+
+    //TODO: support types after name identifier
+    varDirective: $ => seq('var', $.nameIdentifier, "=", $.expression),
+
     expression: $ => choice(
       $.value,
       $.unary_expression,
+      $.function_call,
+      // $.selectors
       // TODO $.binary_expression
+      // TODO updateGroupsSubExpr | matchGroupsSubExpr | defaultSubExpr | binaryFunction
     ),
+
+    function_call: $ => prec(PREC.FUNCTION_CALL, seq(
+      $.value,
+      '(',
+      commaSep($.expression),
+      ')'
+    )),
+
+    // selectors: $ => choice(
+    //   $.basic_selector,
+    // ),
+
+    // basic_selector: $ => seq(
+    //   $.value,
+    //   '.',
+    //   choice(
+    //     $.nameWithPrefix,
+    //     seq('[', $.expression, ']')
+    //   )
+    // ),
 
     //     (lambdaLiteral | singleKeyValuePairObj | atomic(variable ~ optional(ws ~ customInterpolation)) | literal | multipleKeyValuePairObj | array | parentBasedExpr) ~ optional(ws ~ functionCall) ~ optional(selectors)
     value: $ => choice(
@@ -57,7 +90,12 @@ module.exports = grammar({
       $.array,
       $.literal,
       $.object,
-      $.nameIdentifier
+      $.nameIdentifier,
+      seq('(', $.expression, ')')
+      // single kvp
+      // string interpolation
+      // function call
+      // selectors
     ),
     
     //    pushPosition ~ optional(typeParametersList) ~ ws ~ lambdaParameters ~ ws ~ optional(objFieldSep ~ !objFieldSep ~ typeExpression) ~ ws ~ lambdaMark ~!~ ws ~ (expr | missingExpression("Missing Lambda Expression.")) ~> createFunctionNode ~ injectPosition
@@ -118,11 +156,11 @@ module.exports = grammar({
     numberLiteral: $ => seq(
       field("integer", $.integer),
       optional($.frac),
-      optional($.exp)
+      optional($.integer)
     ),
     integer: $ => seq(
       // optional("-"), TODO
-      field("integer_digits",DIGITS)
+      field("integer_digits", DIGITS)
     ),
     frac: $ => seq(
       ".",
@@ -291,14 +329,36 @@ module.exports = grammar({
       $.numberLiteral
     ),
 
+
+    // ( |  |  |  | usingExpr | ifExpr | unlessExpr | doBlockExpr) | value
+
     unary_expression: $ => prec(PREC.UNARY, choice(
+      '???',
       seq('-', $.expression),
       seq('!', $.expression),
-      seq('not ', $.expression) // Whitespace??
+      seq('not ', $.expression), // Whitespace??
       // TODO using
-      // TODO if else
+      seq(
+        'if',
+        '(',
+        $.expression,
+        ')',
+        $.expression,
+        'else',
+        $.expression
+      ),
       // TODO unless
       // TODO doBlock
+      seq(
+        'do',
+        '{',
+        optional(seq(
+          $.header,
+          '---'
+        )),
+        field('body', $.expression),
+        '}'
+      )
     )),
 
     //copied comment from https://github.com/tree-sitter/tree-sitter-java/blob/master/grammar.js#L1145

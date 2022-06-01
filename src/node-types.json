@@ -32,7 +32,21 @@
   {
     "type": "directive",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "varDirective",
+          "named": true
+        },
+        {
+          "type": "versionDirective",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "enclosedTypeExpression",
@@ -50,11 +64,6 @@
     }
   },
   {
-    "type": "exp",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "expression",
     "named": true,
     "fields": {},
@@ -62,6 +71,10 @@
       "multiple": false,
       "required": true,
       "types": [
+        {
+          "type": "function_call",
+          "named": true
+        },
         {
           "type": "unary_expression",
           "named": true
@@ -126,6 +139,25 @@
         },
         {
           "type": "typeExpression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_call",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -449,11 +481,11 @@
       "required": false,
       "types": [
         {
-          "type": "exp",
+          "type": "frac",
           "named": true
         },
         {
-          "type": "frac",
+          "type": "integer",
           "named": true
         }
       ]
@@ -664,13 +696,28 @@
   {
     "type": "unary_expression",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "expression",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": false,
-      "required": true,
+      "multiple": true,
+      "required": false,
       "types": [
         {
           "type": "expression",
+          "named": true
+        },
+        {
+          "type": "header",
           "named": true
         }
       ]
@@ -704,6 +751,10 @@
           "named": true
         },
         {
+          "type": "expression",
+          "named": true
+        },
+        {
           "type": "lambdaLiteral",
           "named": true
         },
@@ -723,11 +774,39 @@
     }
   },
   {
+    "type": "varDirective",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expression",
+          "named": true
+        },
+        {
+          "type": "nameIdentifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "versionDirective",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "!",
     "named": false
   },
   {
     "type": "#",
+    "named": false
+  },
+  {
+    "type": "%dw",
     "named": false
   },
   {
@@ -799,6 +878,10 @@
     "named": false
   },
   {
+    "type": "???",
+    "named": false
+  },
+  {
     "type": "@",
     "named": false
   },
@@ -823,7 +906,15 @@
     "named": true
   },
   {
+    "type": "do",
+    "named": false
+  },
+  {
     "type": "e",
+    "named": false
+  },
+  {
+    "type": "else",
     "named": false
   },
   {
@@ -832,6 +923,10 @@
   },
   {
     "type": "fun f() = 2",
+    "named": false
+  },
+  {
+    "type": "if",
     "named": false
   },
   {
@@ -857,6 +952,10 @@
   {
     "type": "trueLiteral",
     "named": true
+  },
+  {
+    "type": "var",
+    "named": false
   },
   {
     "type": "{",
