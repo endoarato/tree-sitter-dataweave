@@ -8,7 +8,46 @@
       "required": false,
       "types": [
         {
-          "type": "expression",
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "basic_selector",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "nameWithPrefix",
+          "named": true
+        },
+        {
+          "type": "selectableValues",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -30,19 +69,34 @@
     }
   },
   {
-    "type": "directive",
+    "type": "do_block",
     "named": true,
-    "fields": {},
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "value",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "varDirective",
-          "named": true
-        },
-        {
-          "type": "versionDirective",
+          "type": "header",
           "named": true
         }
       ]
@@ -64,29 +118,6 @@
     }
   },
   {
-    "type": "expression",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "unary_expression",
-          "named": true
-        },
-        {
-          "type": "value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "frac",
     "named": true,
     "fields": {}
@@ -101,6 +132,37 @@
       "types": [
         {
           "type": "nameIdentifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "functionDirective",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "function_parameter",
+          "named": true
+        },
+        {
+          "type": "nameIdentifier",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -153,11 +215,30 @@
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
           "named": true
         },
         {
           "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "function_parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nameIdentifier",
           "named": true
         }
       ]
@@ -169,10 +250,22 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "directive",
+          "type": "functionDirective",
+          "named": true
+        },
+        {
+          "type": "outputDirective",
+          "named": true
+        },
+        {
+          "type": "varDirective",
+          "named": true
+        },
+        {
+          "type": "versionDirective",
           "named": true
         }
       ]
@@ -207,7 +300,7 @@
       "required": true,
       "types": [
         {
-          "type": "stringLiteral",
+          "type": "nameWithPrefix",
           "named": true
         }
       ]
@@ -268,7 +361,7 @@
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "function_call",
           "named": true
         },
         {
@@ -281,6 +374,14 @@
         },
         {
           "type": "typeParametersList",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -296,37 +397,6 @@
       "types": [
         {
           "type": "parameter",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "falseLiteral",
-          "named": true
-        },
-        {
-          "type": "nullLiteral",
-          "named": true
-        },
-        {
-          "type": "numberLiteral",
-          "named": true
-        },
-        {
-          "type": "stringLiteral",
-          "named": true
-        },
-        {
-          "type": "trueLiteral",
           "named": true
         }
       ]
@@ -368,7 +438,15 @@
         "required": true,
         "types": [
           {
-            "type": "expression",
+            "type": "function_call",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "value",
             "named": true
           }
         ]
@@ -377,6 +455,21 @@
     "children": {
       "multiple": false,
       "required": false,
+      "types": [
+        {
+          "type": "header",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "module",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
       "types": [
         {
           "type": "header",
@@ -462,23 +555,39 @@
     }
   },
   {
+    "type": "nonNumberliteral",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "falseLiteral",
+          "named": true
+        },
+        {
+          "type": "nullLiteral",
+          "named": true
+        },
+        {
+          "type": "stringLiteral",
+          "named": true
+        },
+        {
+          "type": "trueLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "numberLiteral",
     "named": true,
-    "fields": {
-      "integer": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "integer",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
           "type": "frac",
@@ -497,14 +606,22 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "expression",
+          "type": "function_call",
           "named": true
         },
         {
           "type": "key",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -549,6 +666,29 @@
     }
   },
   {
+    "type": "outputDirective",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "mimeType",
+          "named": true
+        },
+        {
+          "type": "writerId",
+          "named": true
+        },
+        {
+          "type": "writerIdWithMime",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "parameter",
     "named": true,
     "fields": {},
@@ -557,7 +697,7 @@
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "function_call",
           "named": true
         },
         {
@@ -566,6 +706,72 @@
         },
         {
           "type": "typeExpression",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "selectableValues",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "nameIdentifier",
+          "named": true
+        },
+        {
+          "type": "nonNumberliteral",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "selectors",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "selectors",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "basic_selector",
           "named": true
         }
       ]
@@ -596,6 +802,10 @@
       "types": [
         {
           "type": "mapping",
+          "named": true
+        },
+        {
+          "type": "module",
           "named": true
         }
       ]
@@ -696,28 +906,25 @@
   {
     "type": "unary_expression",
     "named": true,
-    "fields": {
-      "body": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "expression",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "expression",
+          "type": "do_block",
           "named": true
         },
         {
-          "type": "header",
+          "type": "function_call",
+          "named": true
+        },
+        {
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -747,27 +954,15 @@
       "required": true,
       "types": [
         {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "expression",
-          "named": true
-        },
-        {
           "type": "lambdaLiteral",
           "named": true
         },
         {
-          "type": "literal",
+          "type": "numberLiteral",
           "named": true
         },
         {
-          "type": "nameIdentifier",
-          "named": true
-        },
-        {
-          "type": "object",
+          "type": "selectableValues",
           "named": true
         }
       ]
@@ -776,17 +971,32 @@
   {
     "type": "varDirective",
     "named": true,
-    "fields": {},
+    "fields": {
+      "id": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "nameIdentifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "expression",
+          "type": "function_call",
           "named": true
         },
         {
-          "type": "nameIdentifier",
+          "type": "unary_expression",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -795,7 +1005,41 @@
   {
     "type": "versionDirective",
     "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "numberLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "writerId",
+    "named": true,
     "fields": {}
+  },
+  {
+    "type": "writerIdWithMime",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "mimeType",
+          "named": true
+        },
+        {
+          "type": "writerId",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "!",
@@ -922,6 +1166,10 @@
     "named": true
   },
   {
+    "type": "fun",
+    "named": false
+  },
+  {
     "type": "fun f() = 2",
     "named": false
   },
@@ -931,6 +1179,10 @@
   },
   {
     "type": "line_comment",
+    "named": true
+  },
+  {
+    "type": "mimeType",
     "named": true
   },
   {
@@ -946,6 +1198,10 @@
     "named": true
   },
   {
+    "type": "output",
+    "named": false
+  },
+  {
     "type": "stringLiteral",
     "named": true
   },
@@ -955,6 +1211,10 @@
   },
   {
     "type": "var",
+    "named": false
+  },
+  {
+    "type": "with",
     "named": false
   },
   {

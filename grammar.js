@@ -15,16 +15,23 @@ module.exports = grammar({
   ],
 
   conflicts: $ => [
-    [$.parameter, $.value]
+    [$.parameter, $.selectableValues],
+    [$.basic_selector, $.value]
+  ],
+  inline: $ => [ 
+    //these won't appear in the tree
+    $.directive,
+    $.literal,
+    $.expression,
   ],
   
   rules: {
     // TODO: add the actual grammar rules
     source_file: $ => choice(
       $.mapping,
-      // $.module
+      $.module
     ),
-
+    module: $ => $.header,
     mapping: $ => seq(
       optional(seq(
         $.header,
@@ -41,25 +48,42 @@ module.exports = grammar({
     directive: $ => choice(
       $.versionDirective,
       // $.inputDirective,
-      // $.outputDirective,
+      $.outputDirective,
       // $.typeDirective,
       $.varDirective,
-      // $.functionDirective,
+      $.functionDirective,
       // $.importDirective,
       // $.annotationDirective
       "fun f() = 2"
     ),
 
-    versionDirective: $ => seq("%dw", /\\d+(?:\\.\\d+)*/),
+    versionDirective: $ => seq("%dw", $.numberLiteral),
 
     //TODO: support types after name identifier
-    varDirective: $ => seq('var', $.nameIdentifier, "=", $.expression),
+    varDirective: $ => seq(
+      'var',
+      field('id', $.nameIdentifier),
+      "=",
+      $.expression
+    ),
+
+    //TODO: support types after parameters
+    functionDirective: $ => seq('fun', $.nameIdentifier, "(", commaSep($.function_parameter),")", "=", $.expression),
+    
+    function_parameter: $ => $.nameIdentifier,
+
+    outputDirective: $ => seq("output", choice($.mimeType, $.writerId, $.writerIdWithMime)),
+    
+    mimeType: $ => /\w+\/[-+.\w]+/,
+    writerId: $ => seq(/\w+/),
+    writerIdWithMime: $ => seq($.writerId, seq("with", $.mimeType)),
+
+    
 
     expression: $ => choice(
       $.value,
       $.unary_expression,
       $.function_call,
-      // $.selectors
       // TODO $.binary_expression
       // TODO updateGroupsSubExpr | matchGroupsSubExpr | defaultSubExpr | binaryFunction
     ),
@@ -71,31 +95,36 @@ module.exports = grammar({
       ')'
     )),
 
-    // selectors: $ => choice(
-    //   $.basic_selector,
-    // ),
+    selectors: $ => prec.left(choice(
+      $.basic_selector,
+    )),
 
-    // basic_selector: $ => seq(
-    //   $.value,
-    //   '.',
-    //   choice(
-    //     $.nameWithPrefix,
-    //     seq('[', $.expression, ']')
-    //   )
-    // ),
+    basic_selector: $ => seq(
+      $.selectableValues,
+      choice(
+        seq('.', $.nameWithPrefix),
+        seq('[', $.expression, ']')
+      )
+    ),
 
     //     (lambdaLiteral | singleKeyValuePairObj | atomic(variable ~ optional(ws ~ customInterpolation)) | literal | multipleKeyValuePairObj | array | parentBasedExpr) ~ optional(ws ~ functionCall) ~ optional(selectors)
-    value: $ => choice(
-      $.lambdaLiteral,
+    selectableValues: $ => choice(
       $.array,
-      $.literal,
+      $.nonNumberliteral,
       $.object,
       $.nameIdentifier,
-      seq('(', $.expression, ')')
+      seq('(', $.expression, ')'),
+      $.selectors
       // single kvp
       // string interpolation
       // function call
       // selectors
+    ),
+
+    value: $ => choice(
+      $.lambdaLiteral, 
+      $.selectableValues,
+      $.numberLiteral
     ),
     
     //    pushPosition ~ optional(typeParametersList) ~ ws ~ lambdaParameters ~ ws ~ optional(objFieldSep ~ !objFieldSep ~ typeExpression) ~ ws ~ lambdaMark ~!~ ws ~ (expr | missingExpression("Missing Lambda Expression.")) ~> createFunctionNode ~ injectPosition
@@ -144,8 +173,8 @@ module.exports = grammar({
     ),
 
     
-    literal: $ => choice(
-      $.numberLiteral,
+    nonNumberliteral: $ => choice(
+      // $.numberLiteral,
       $.stringLiteral,
       $.trueLiteral,
       $.falseLiteral,
@@ -153,14 +182,15 @@ module.exports = grammar({
       // $.regexLiteral,
       // $.dateLiteral
     ),
+
     numberLiteral: $ => seq(
-      field("integer", $.integer),
+      $.integer,
       optional($.frac),
-      optional($.integer)
+      // optional($.exp)
     ),
     integer: $ => seq(
       // optional("-"), TODO
-      field("integer_digits", DIGITS)
+      DIGITS
     ),
     frac: $ => seq(
       ".",
@@ -191,14 +221,15 @@ module.exports = grammar({
 
     object: $ => seq(
       "{",
-      seq(
+      commaSep(seq(
         $.key,
         ":",
         $.expression
-      ),
+      )),
       "}"
     ),
-    key: $ => $.stringLiteral, //TODO
+
+    key: $ => $.nameWithPrefix,
 
     typeExpression: $ => choice(
       // TODO schemas
@@ -349,17 +380,19 @@ module.exports = grammar({
       ),
       // TODO unless
       // TODO doBlock
-      seq(
-        'do',
-        '{',
-        optional(seq(
-          $.header,
-          '---'
-        )),
-        field('body', $.expression),
-        '}'
-      )
+      $.do_block
     )),
+
+    do_block: $ => seq(
+      'do',
+      '{',
+      optional(seq(
+        $.header,
+        '---'
+      )),
+      field('body', $.expression),
+      '}'
+    ),
 
     //copied comment from https://github.com/tree-sitter/tree-sitter-java/blob/master/grammar.js#L1145
     // http://stackoverflow.com/questions/13014947/regex-to-match-a-c-style-multiline-comment/36328890#36328890

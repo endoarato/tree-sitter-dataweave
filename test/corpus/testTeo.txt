@@ -7,13 +7,10 @@ Minus expression
 
 (source_file
   (mapping
-    body: (expression
-      (unary_expression
-        (expression
-          (value
-            (literal
-              (numberLiteral
-                integer: (integer)))))))))
+    body: (unary_expression
+      (value
+        (numberLiteral
+          (integer))))))
 
 ================================================================================
 Minus expression
@@ -24,13 +21,10 @@ Minus expression
 
 (source_file
   (mapping
-    body: (expression
-      (unary_expression
-        (expression
-          (value
-            (literal
-              (numberLiteral
-                integer: (integer)))))))))
+    body: (unary_expression
+      (value
+        (numberLiteral
+          (integer))))))
 
 ================================================================================
 teo doBlock
@@ -44,13 +38,11 @@ do {
 
 (source_file
   (mapping
-    (expression
-      (unary_expression
-        (expression
-          (value
-            (literal
-              (numberLiteral
-                (integer)))))))))
+    (unary_expression
+      (do_block
+        (value
+          (numberLiteral
+            (integer)))))))
 
 ================================================================================
 teo doBlock w header
@@ -66,15 +58,12 @@ do {
 
 (source_file
   (mapping
-    (expression
-      (unary_expression
-        (header
-          (directive))
-        (expression
-          (value
-            (literal
-              (numberLiteral
-                (integer)))))))))
+    (unary_expression
+      (do_block
+        (header)
+        (value
+          (numberLiteral
+            (integer)))))))
 
 ================================================================================
 teo parent expression
@@ -86,21 +75,17 @@ teo parent expression
 
 (source_file
   (mapping
-    (expression
-      (value
+    (value
+      (selectableValues
         (array
-          (expression
-            (value
-              (expression
-                (value
-                  (literal
-                    (numberLiteral
-                      (integer)))))))
-          (expression
-            (value
-              (literal
+          (value
+            (selectableValues
+              (value
                 (numberLiteral
-                  (integer))))))))))
+                  (integer)))))
+          (value
+            (numberLiteral
+              (integer))))))))
 
 ================================================================================
 teo call
@@ -112,17 +97,143 @@ f(1, 2)
 
 (source_file
   (mapping
-    (expression
-      (function_call
-        (value
-          (nameIdentifier))
-        (expression
+    (function_call
+      (value
+        (selectableValues
+          (nameIdentifier)))
+      (value
+        (numberLiteral
+          (integer)))
+      (value
+        (numberLiteral
+          (integer))))))
+
+================================================================================
+teo selectors
+================================================================================
+
+este.aquel
+--------------------------------------------------------------------------------
+
+(source_file
+  (mapping
+    (value
+      (selectableValues
+        (selectors
+          (basic_selector
+            (selectableValues
+              (nameIdentifier))
+            (nameWithPrefix
+              (nameIdentifier))))))))
+
+================================================================================
+teo doble selector
+================================================================================
+
+este.aquel.otro
+--------------------------------------------------------------------------------
+
+(source_file
+  (mapping
+    (value
+      (selectableValues
+        (selectors
+          (basic_selector
+            (selectableValues
+              (selectors
+                (basic_selector
+                  (selectableValues
+                    (nameIdentifier))
+                  (nameWithPrefix
+                    (nameIdentifier)))))
+            (nameWithPrefix
+              (nameIdentifier))))))))
+
+================================================================================
+teo selector dinamico
+================================================================================
+
+este["blop"]
+--------------------------------------------------------------------------------
+
+(source_file
+  (mapping
+    (value
+      (selectableValues
+        (selectors
+          (basic_selector
+            (selectableValues
+              (nameIdentifier))
+            (value
+              (selectableValues
+                (nonNumberliteral
+                  (stringLiteral))))))))))
+
+================================================================================
+teo object
+================================================================================
+
+{n#a: 123, b: "dsa"}
+--------------------------------------------------------------------------------
+
+(source_file
+  (mapping
+    (value
+      (selectableValues
+        (object
+          (key
+            (nameWithPrefix
+              (namespace
+                (nameIdentifier))
+              (nameIdentifier)))
           (value
-            (literal
+            (numberLiteral
+              (integer)))
+          (key
+            (nameWithPrefix
+              (nameIdentifier)))
+          (value
+            (selectableValues
+              (nonNumberliteral
+                (stringLiteral)))))))))
+
+================================================================================
+teo do block with var
+================================================================================
+
+var a = 123
+var b = a
+---
+
+do {
+  var a = 456
+  ---
+  a
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (mapping
+    (header
+      (varDirective
+        (nameIdentifier)
+        (value
+          (numberLiteral
+            (integer))))
+      (varDirective
+        (nameIdentifier)
+        (value
+          (selectableValues
+            (nameIdentifier)))))
+    (unary_expression
+      (do_block
+        (header
+          (varDirective
+            (nameIdentifier)
+            (value
               (numberLiteral
                 (integer)))))
-        (expression
-          (value
-            (literal
-              (numberLiteral
-                (integer)))))))))
+        (value
+          (selectableValues
+            (nameIdentifier)))))))

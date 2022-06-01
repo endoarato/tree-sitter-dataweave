@@ -1,4 +1,10 @@
-fun f() = 2
-
+var a = 123
+var b = a
 ---
-(a: String) -> 3
+
+do {
+  var a = 456
+  ---
+  a + b
+}
+

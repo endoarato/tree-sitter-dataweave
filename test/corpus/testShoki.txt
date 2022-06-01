@@ -1,5 +1,5 @@
 ================================================================================
-shoki__True
+shoki True
 ================================================================================
 
 true
@@ -8,39 +8,39 @@ true
 
 (source_file
   (mapping
-    (expression
-      (value
-        (literal
+    (value
+      (selectableValues
+        (nonNumberliteral
           (trueLiteral))))))
 
 ================================================================================
-shoki__False
+shoki False
 ================================================================================
 false
 --------------------------------------------------------------------------------
 
 (source_file
   (mapping
-    (expression
-      (value
-        (literal
+    (value
+      (selectableValues
+        (nonNumberliteral
           (falseLiteral))))))
 
 ================================================================================
-shoki__Null
+shoki Null
 ================================================================================
 null
 --------------------------------------------------------------------------------
 
 (source_file
   (mapping
-    (expression
-      (value
-        (literal
+    (value
+      (selectableValues
+        (nonNumberliteral
           (nullLiteral))))))
 
 ================================================================================
-shoki__Identifier
+shoki Identifier
 ================================================================================
 
 hello2
@@ -49,12 +49,12 @@ hello2
 
 (source_file
   (mapping
-    (expression
-      (value
+    (value
+      (selectableValues
         (nameIdentifier)))))
 
 ================================================================================
-shoki__Mapping
+shoki Mapping
 ================================================================================
 
 fun f() = 2
@@ -67,16 +67,13 @@ fun f() = 2
 
 (source_file
   (mapping
-    (header
-      (directive))
-    body: (expression
-      (value
-        (literal
-          (numberLiteral
-            integer: (integer)))))))
+    (header)
+    body: (value
+      (numberLiteral
+        (integer)))))
 
 ================================================================================
-shoki__Incomplete
+shoki Incomplete
 ================================================================================
 
 (a: String) -> [1
@@ -85,28 +82,25 @@ shoki__Incomplete
 
 (source_file
   (mapping
-    (expression
-      (value
-        (lambdaLiteral
-          (lambdaParameters
-            (parameter
-              (nameIdentifier)
-              (typeExpression
-                (typeReferenceLiteral
-                  (fullyQualifiedName
-                    (nameIdentifier))))))
-          (expression
-            (value
-              (array
-                (expression
-                  (value
-                    (literal
-                      (numberLiteral
-                        (integer)))))
-                (MISSING "]")))))))))
+    (value
+      (lambdaLiteral
+        (lambdaParameters
+          (parameter
+            (nameIdentifier)
+            (typeExpression
+              (typeReferenceLiteral
+                (fullyQualifiedName
+                  (nameIdentifier))))))
+        (value
+          (selectableValues
+            (array
+              (value
+                (numberLiteral
+                  (integer)))
+              (MISSING "]"))))))))
 
 ================================================================================
-shoki__Incomplete2
+shoki Incomplete2
 ================================================================================
 
 [ 1, 2, 3
@@ -115,52 +109,22 @@ shoki__Incomplete2
 
 (source_file
   (mapping
-    (expression
-      (value
+    (value
+      (selectableValues
         (array
-          (expression
-            (value
-              (literal
-                (numberLiteral
-                  (integer)))))
-          (expression
-            (value
-              (literal
-                (numberLiteral
-                  (integer)))))
-          (expression
-            (value
-              (literal
-                (numberLiteral
-                  (integer)))))
+          (value
+            (numberLiteral
+              (integer)))
+          (value
+            (numberLiteral
+              (integer)))
+          (value
+            (numberLiteral
+              (integer)))
           (MISSING "]"))))))
 
 ================================================================================
-shoki__version_directive
-================================================================================
-
-%dw 2.0
----
-true
-
---------------------------------------------------------------------------------
-
-(source_file
-  (ERROR)
-  (mapping
-    (expression
-      (unary_expression
-        (expression
-          (unary_expression
-            (expression
-              (unary_expression
-                (expression
-                  (value
-                    (literal
-                      (trueLiteral))))))))))))
-
-================================================================================
-shoki__Minus expression
+shoki Minus expression
 ================================================================================
 
 -23
@@ -168,16 +132,13 @@ shoki__Minus expression
 
 (source_file
   (mapping
-    (expression
-      (unary_expression
-        (expression
-          (value
-            (literal
-              (numberLiteral
-                (integer)))))))))
+    (unary_expression
+      (value
+        (numberLiteral
+          (integer))))))
 
 ================================================================================
-shoki__Negated_expression
+shoki Negated_expression
 ================================================================================
 
 ! true
@@ -185,15 +146,14 @@ shoki__Negated_expression
 
 (source_file
   (mapping
-    (expression
-      (unary_expression
-        (expression
-          (value
-            (literal
-              (trueLiteral))))))))
+    (unary_expression
+      (value
+        (selectableValues
+          (nonNumberliteral
+            (trueLiteral)))))))
 
 ================================================================================
-shoki__Not_expression
+shoki Not_expression
 ================================================================================
 
 not false
@@ -201,15 +161,14 @@ not false
 
 (source_file
   (mapping
-    (expression
-      (unary_expression
-        (expression
-          (value
-            (literal
-              (falseLiteral))))))))
+    (unary_expression
+      (value
+        (selectableValues
+          (nonNumberliteral
+            (falseLiteral)))))))
 
 ================================================================================
-shoki__IF/else
+shoki IF/else
 ================================================================================
 
 if (not true) 24 else 2
@@ -218,33 +177,32 @@ if (not true) 24 else 2
 
 (source_file
   (mapping
-    (expression
+    (unary_expression
       (unary_expression
-        (expression
-          (unary_expression
-            (expression
-              (value
-                (literal
-                  (trueLiteral))))))
-        (expression
-          (value
-            (literal
-              (numberLiteral
-                (integer)))))
-        (expression
-          (value
-            (literal
-              (numberLiteral
-                (integer)))))))))
+        (value
+          (selectableValues
+            (nonNumberliteral
+              (trueLiteral)))))
+      (value
+        (numberLiteral
+          (integer)))
+      (value
+        (numberLiteral
+          (integer))))))
 
 ================================================================================
-shoki__var directive
+shoki module (no body)
 ================================================================================
 
 var a = 12
+
 --------------------------------------------------------------------------------
 
-(ERROR
-  (header
-    (directive
-      (varDirective))))
+(source_file
+  (module
+    (header
+      (varDirective
+        (nameIdentifier)
+        (value
+          (numberLiteral
+            (integer)))))))
