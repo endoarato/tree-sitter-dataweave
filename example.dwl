@@ -1,10 +1,28 @@
+%dw 2.0
+
+
+// comment
+input payload json
+input key json
+
 var a = 123
-var b = a
+
+type A = Number
+
+type B = 18
+
+
+fun f()= payload
 ---
 
 do {
-  var a = 456
+  var payload: A = 34
   ---
-  a + b
+  // [a, b, payload, c, f()]
+  [
+    typeOf(A),
+    typeOf(a),
+    payload,
+    key
+  ]
 }
-

@@ -3,6 +3,7 @@ const PREC = {
   UNARY: 2,
   COMMENT: 10,
   FUNCTION_CALL: 15,
+  MATCH: 30
 }
 
 module.exports = grammar({
@@ -33,10 +34,10 @@ module.exports = grammar({
     ),
     module: $ => $.header,
     mapping: $ => seq(
-      optional(seq(
+      field('header', optional(seq(
         $.header,
         '---'
-      )),
+      ))),
       field('body', $.expression)
     ),
 
@@ -47,49 +48,132 @@ module.exports = grammar({
 
     directive: $ => choice(
       $.versionDirective,
-      // $.inputDirective,
+      $.inputDirective,
       $.outputDirective,
-      // $.typeDirective,
+      $.typeDirective,
       $.varDirective,
       $.functionDirective,
       // $.importDirective,
       // $.annotationDirective
-      "fun f() = 2"
+      // "fun f() = 2"
     ),
 
     versionDirective: $ => seq("%dw", $.numberLiteral),
 
-    //TODO: support types after name identifier
+    typeDirective: $ => seq(
+      'type',
+      field('id', $.nameIdentifier),
+      optional($.typeParametersList),
+      '=',
+      $.typeExpression
+    ),
+
     varDirective: $ => seq(
       'var',
       field('id', $.nameIdentifier),
+      optional(seq(':', $.typeExpression)),
       "=",
       $.expression
     ),
 
-    //TODO: support types after parameters
-    functionDirective: $ => seq('fun', $.nameIdentifier, "(", commaSep($.function_parameter),")", "=", $.expression),
+    functionDirective: $ => seq(
+      'fun',
+      $.nameIdentifier, 
+      "(",
+      commaSep($.function_parameter),")", "=", $.expression),
     
-    function_parameter: $ => $.nameIdentifier,
+    function_parameter: $ => seq(
+      field("id", $.nameIdentifier),
+      optional(seq(':', $.typeExpression))
+    ),
 
-    outputDirective: $ => seq("output", choice($.mimeType, $.writerId, $.writerIdWithMime)),
+    outputDirective: $ => seq(
+      "output",
+      choice($.mimeType, $.writerId, $.writerIdWithMime),
+      commaSep($.option)
+    ),
     
     mimeType: $ => /\w+\/[-+.\w]+/,
     writerId: $ => seq(/\w+/),
     writerIdWithMime: $ => seq($.writerId, seq("with", $.mimeType)),
 
-    
+    inputDirective: $ => seq(
+      'input',
+      field('id', $.nameIdentifier),
+      optional(seq(':', $.typeExpression)),
+      field('mime', choice($.mimeType, $.writerId)),
+      commaSep($.option)
+    ),
+
+    option: $ => seq(
+      $.nameIdentifier, 
+      '=',
+      choice($.numberLiteral, $.nonNumberliteral)
+    ),
 
     expression: $ => choice(
       $.value,
       $.unary_expression,
       $.function_call,
-      // TODO $.binary_expression
+      $.binary_expression
       // TODO updateGroupsSubExpr | matchGroupsSubExpr | defaultSubExpr | binaryFunction
     ),
 
+    binary_expression: $ => choice(
+      // todo update
+      // todo binary function
+      $.match_expression,
+      $.default_expression,
+      // $.or_expression,
+      // $.and_expression,
+      // $.equal_expression,
+      // // todo notequal, similar
+      // // lessOrEqualThanSubExpr | greaterOrEqualThanSubExpr | greaterThanSubExpr | lessThanSubExpr | isSubExpr
+      // $.plus_expression,
+      // $.multi_expression,
+      // $.as_expression
+    ),
+
+    default_expression: $ => prec.left(PREC.MATCH, seq(
+      $.expression,
+      'default',
+      $.expression
+    )),
+
+    match_expression: $ => prec(PREC.MATCH, seq(
+      $.expression,
+      'match',
+      '{',
+      repeat1($.case_expression),
+      '}'
+    )),
+
+    case_expression: $ => seq(
+      // 'case',
+      //((caseKeyword ~!~ (regexPattern | namedRegexPattern | typePattern | namedTypePattern | literalPattern | namedLiteralPattern | namedExpressionPattern | deconstructPattern)) | defaultPattern)
+      choice(
+        $.default_pattern,
+      ),
+      '->',
+      $.expression
+    ),
+
+    default_pattern: $ => seq(
+      'else',
+      optional($.nameIdentifier)
+    ),
+
+    // $.default_expression,
+    // $.or_expression,
+    // $.and_expression,
+    // $.equal_expression,
+    // $.plus_expression,
+    // $.multi_expression,
+    // $.as_expression
+
+
     function_call: $ => prec(PREC.FUNCTION_CALL, seq(
-      $.value,
+      $.selectableValues,
       '(',
       commaSep($.expression),
       ')'
@@ -161,7 +245,7 @@ module.exports = grammar({
 
     parameter: $ => seq(
       // TODO annotations,
-      $.nameIdentifier,
+      field("id", $.nameIdentifier),
       optional(seq(
         ':',
         $.typeExpression

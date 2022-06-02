@@ -1,11 +1,30 @@
-"fun f() = 2" @keyword
 
-(lambdaParameters) @string
 (typeExpression) @type
-(integer) @number
+(value (numberLiteral)) @number
+
+(line_comment) @comment
+(block_comment) @comment
 
 
-((nameIdentifier) @function.method
- (#is-not? local))
+
+(versionDirective) @property
+
+(inputDirective 
+  id: (nameIdentifier) @variable.input
+)
+(varDirective id: (nameIdentifier) @variable.var)
+(typeDirective id: (nameIdentifier) @type)
+
+(mimeType) @mime_type
+(writerId) @mime_type
+
+((selectableValues (nameIdentifier (#is-not? local)) @variable.external))
+; para sobrescribir con el de su refe, tiene que matchear con algo
+((selectableValues (nameIdentifier (#is? local)) @nothing))
  
-(nameIdentifier) @variable
+[
+    "var"
+    "type"
+    "fun"
+    "do"
+] @keyword
