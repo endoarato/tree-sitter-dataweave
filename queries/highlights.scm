@@ -27,4 +27,5 @@
     "type"
     "fun"
     "do"
+    "input"
 ] @keyword
