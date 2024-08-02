@@ -47,7 +47,10 @@
   "tree-sitter": [
     {
       "scope": "source.dataweave",
-      "injection-regex": "^dataweave$"
+      "injection-regex": "^dataweave$",
+      "file-types": [
+        "dwl"
+      ]
     }
   ]
 }
