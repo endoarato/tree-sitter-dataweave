@@ -49,7 +49,8 @@
       "scope": "source.dataweave",
       "injection-regex": "^dataweave$",
       "file-types": [
-        "dwl"
+        "dwl",
+        "dw"
       ],
       "highlights": "queries/highlights.scm"
     }

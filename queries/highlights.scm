@@ -1,23 +1,29 @@
 ; Literals
-(literal) @constant)
+(literal) @constant
 
 ; DataWeave Header
 (header "%dw" @keyword
-  name: (version) @constant
-  )
+  version: (number) @constant
+)
 
 ; Object keys
-(key) @property
+(key_value_pair
+    key: (string) @property
+)
 
-; Null
-(null) @keyword
+; Array
+(array
+    "[" @separator
+    "]" @separator
+)
 
-; Comments
-(comment) @comment
+; Function calls
+(function_call
+    name: (identifier) @function
+)
 
-; Binary Expression
-(binary_expression
-    left: (left)
-    operator: (operator) @operator
-    right: (right)
+; Function declaration
+(function_declaration
+    "fun" @keyword
+    name: (identifier) @function
 )
