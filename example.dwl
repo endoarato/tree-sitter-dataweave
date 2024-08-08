@@ -14,7 +14,7 @@ type A = Number
 type B = 18
 
 
-fun f()= payload
+fun f() = payload
 fun g(a: String, b: 18) = b
 ---
 
