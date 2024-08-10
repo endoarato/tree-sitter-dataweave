@@ -4,9 +4,11 @@
 (operator) @operator
 (type) @type
 (string) @string
-[
-    "["
-    "]"
-    "{"
-    "}"
-] @punctuation.bracket
+
+(array
+    "[" @punctuation.bracket
+    "]" @punctuation.bracket)
+
+(object
+    "{" @punctuation.bracket
+    "}" @punctuation.bracket)

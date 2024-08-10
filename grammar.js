@@ -118,7 +118,16 @@ module.exports = grammar({
     keyword: ($) => KEYWORDS,
     number: ($) => choice(INT, FLOAT),
     _any: ($) =>
-      choice($.number, $.comment, $.type, $.string, $.operator, $.identifier),
+      choice(
+        $.number,
+        $.comment,
+        $.type,
+        $.string,
+        $.operator,
+        $.array,
+        $.object,
+        $.identifier,
+      ),
     line_comment: ($) => seq("//", optional($.comment_text_sl), /\n/),
     block_comment: ($) => seq("/*", optional($.comment_text_ml), "*/"),
     comment_text_sl: ($) => repeat1(/./),
