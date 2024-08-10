@@ -39,11 +39,6 @@
     "fields": {}
   },
   {
-    "type": "comment_text_sl",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "identifier",
     "named": true,
     "fields": {},
@@ -198,6 +193,10 @@
   {
     "type": "case",
     "named": false
+  },
+  {
+    "type": "comment_text_sl",
+    "named": true
   },
   {
     "type": "default",

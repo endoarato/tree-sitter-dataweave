@@ -196,16 +196,8 @@
       ]
     },
     "comment_text_sl": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "."
-          }
-        ]
-      }
+      "type": "PATTERN",
+      "value": ".+"
     },
     "comment_text_ml": {
       "type": "REPEAT1",
