@@ -82,6 +82,28 @@ const KEYWORDS = choice(
 const FLOAT = /\d*\.\d+/;
 const INT = /\d+/;
 
+const ALL_TYPES = choice(
+  "String",
+  "Boolean",
+  "Number",
+  "Regex",
+  "Null",
+  "Date",
+  "DateTime",
+  "LocalDateTime",
+  "LocalTime",
+  "Time",
+  "Period",
+  "Array",
+  "Object",
+  "Function",
+  "Any",
+  "Nothing",
+  "Union",
+  "Intersection",
+  "Literal",
+);
+
 module.exports = grammar({
   name: "dataweave",
 
@@ -93,12 +115,15 @@ module.exports = grammar({
     name: ($) => /[a-zA-Z]+/,
     keyword: ($) => KEYWORDS,
     number: ($) => choice(INT, FLOAT),
-    _any: ($) => choice($.number, $.comment, $.operator, $.identifier),
+    _any: ($) =>
+      choice($.number, $.comment, $.type, $.string, $.operator, $.identifier),
     line_comment: ($) => seq("//", optional($.comment_text_sl), /\n/),
     block_comment: ($) => seq("/*", optional($.comment_text_ml), "*/"),
     comment_text_sl: ($) => repeat1(/./),
     comment_text_ml: ($) => repeat1(choice(/.|\n|\r/)),
     comment: ($) => choice($.line_comment, $.block_comment),
     operator: ($) => ALLOPS,
+    type: ($) => ALL_TYPES,
+    string: ($) => /".*"/,
   },
 });

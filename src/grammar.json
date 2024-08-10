@@ -141,6 +141,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
           "name": "operator"
         },
         {
@@ -331,6 +339,91 @@
           "value": "="
         }
       ]
+    },
+    "type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "String"
+        },
+        {
+          "type": "STRING",
+          "value": "Boolean"
+        },
+        {
+          "type": "STRING",
+          "value": "Number"
+        },
+        {
+          "type": "STRING",
+          "value": "Regex"
+        },
+        {
+          "type": "STRING",
+          "value": "Null"
+        },
+        {
+          "type": "STRING",
+          "value": "Date"
+        },
+        {
+          "type": "STRING",
+          "value": "DateTime"
+        },
+        {
+          "type": "STRING",
+          "value": "LocalDateTime"
+        },
+        {
+          "type": "STRING",
+          "value": "LocalTime"
+        },
+        {
+          "type": "STRING",
+          "value": "Time"
+        },
+        {
+          "type": "STRING",
+          "value": "Period"
+        },
+        {
+          "type": "STRING",
+          "value": "Array"
+        },
+        {
+          "type": "STRING",
+          "value": "Object"
+        },
+        {
+          "type": "STRING",
+          "value": "Function"
+        },
+        {
+          "type": "STRING",
+          "value": "Any"
+        },
+        {
+          "type": "STRING",
+          "value": "Nothing"
+        },
+        {
+          "type": "STRING",
+          "value": "Union"
+        },
+        {
+          "type": "STRING",
+          "value": "Intersection"
+        },
+        {
+          "type": "STRING",
+          "value": "Literal"
+        }
+      ]
+    },
+    "string": {
+      "type": "PATTERN",
+      "value": "\".*\""
     }
   },
   "extras": [

@@ -115,9 +115,22 @@
         {
           "type": "operator",
           "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "type",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "!",
@@ -181,6 +194,82 @@
   },
   {
     "type": ">>",
+    "named": false
+  },
+  {
+    "type": "Any",
+    "named": false
+  },
+  {
+    "type": "Array",
+    "named": false
+  },
+  {
+    "type": "Boolean",
+    "named": false
+  },
+  {
+    "type": "Date",
+    "named": false
+  },
+  {
+    "type": "DateTime",
+    "named": false
+  },
+  {
+    "type": "Function",
+    "named": false
+  },
+  {
+    "type": "Intersection",
+    "named": false
+  },
+  {
+    "type": "Literal",
+    "named": false
+  },
+  {
+    "type": "LocalDateTime",
+    "named": false
+  },
+  {
+    "type": "LocalTime",
+    "named": false
+  },
+  {
+    "type": "Nothing",
+    "named": false
+  },
+  {
+    "type": "Null",
+    "named": false
+  },
+  {
+    "type": "Number",
+    "named": false
+  },
+  {
+    "type": "Object",
+    "named": false
+  },
+  {
+    "type": "Period",
+    "named": false
+  },
+  {
+    "type": "Regex",
+    "named": false
+  },
+  {
+    "type": "String",
+    "named": false
+  },
+  {
+    "type": "Time",
+    "named": false
+  },
+  {
+    "type": "Union",
     "named": false
   },
   {
@@ -270,6 +359,10 @@
   {
     "type": "private",
     "named": false
+  },
+  {
+    "type": "string",
+    "named": true
   },
   {
     "type": "throw",
