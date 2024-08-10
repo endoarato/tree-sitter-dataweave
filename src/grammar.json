@@ -167,6 +167,10 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "PATTERN",
+          "value": "\\n"
         }
       ]
     },
@@ -196,8 +200,11 @@
       ]
     },
     "comment_text_sl": {
-      "type": "PATTERN",
-      "value": ".+"
+      "type": "REPEAT1",
+      "content": {
+        "type": "PATTERN",
+        "value": "."
+      }
     },
     "comment_text_ml": {
       "type": "REPEAT1",
