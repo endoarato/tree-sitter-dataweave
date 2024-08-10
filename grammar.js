@@ -110,7 +110,9 @@ module.exports = grammar({
   word: ($) => $.name,
 
   rules: {
-    source_file: ($) => repeat($._any),
+    source_file: ($) => seq($.header, $.body),
+    header: ($) => seq("%dw", field("version", FLOAT), repeat($._any), "---"),
+    body: ($) => repeat1($._any),
     identifier: ($) => choice($.keyword, $.name),
     name: ($) => /[a-zA-Z]+/,
     keyword: ($) => KEYWORDS,
@@ -125,5 +127,7 @@ module.exports = grammar({
     operator: ($) => ALLOPS,
     type: ($) => ALL_TYPES,
     string: ($) => /".*"/,
+    object: ($) => seq(optional(seq($.name, ":")), "{", repeat($._any), "}"),
+    array: ($) => seq("[", repeat($._any), "]"),
   },
 });

@@ -4,3 +4,9 @@
 (operator) @operator
 (type) @type
 (string) @string
+[
+    "["
+    "]"
+    "{"
+    "}"
+] @punctuation.bracket
