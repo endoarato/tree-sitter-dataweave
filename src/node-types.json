@@ -1,29 +1,14 @@
 [
   {
-    "type": "array",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "body",
+    "type": "block_comment",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "statement",
+          "type": "comment_text_ml",
           "named": true
         }
       ]
@@ -32,221 +17,80 @@
   {
     "type": "comment",
     "named": true,
-    "fields": {}
-  },
-  {
-    "type": "function_call",
-    "named": true,
-    "fields": {
-      "param": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "literal",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "function_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
+          "type": "block_comment",
           "named": true
         },
         {
-          "type": "parameter_list",
+          "type": "line_comment",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "header",
+    "type": "comment_text_ml",
     "named": true,
-    "fields": {
-      "version": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "float",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {}
+  },
+  {
+    "type": "comment_text_sl",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "identifier",
+    "named": true,
+    "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "keyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "line_comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
       "required": false,
       "types": [
         {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "function_definition",
-          "named": true
-        },
-        {
-          "type": "input_directive",
-          "named": true
-        },
-        {
-          "type": "type_definition",
-          "named": true
-        },
-        {
-          "type": "var_definition",
+          "type": "comment_text_sl",
           "named": true
         }
       ]
     }
-  },
-  {
-    "type": "input_directive",
-    "named": true,
-    "fields": {
-      "key": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "mimeType": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "mimeTypeShort",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "literal",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "mimeTypeLong",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "mimeTypeShort",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "number",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "float",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
-    "type": "object",
+    "type": "operator",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "param",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "parameter_list",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "param",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "source_file",
@@ -257,30 +101,7 @@
       "required": false,
       "types": [
         {
-          "type": "body",
-          "named": true
-        },
-        {
-          "type": "header",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "array",
-          "named": true
-        },
-        {
-          "type": "function_call",
+          "type": "comment",
           "named": true
         },
         {
@@ -288,87 +109,34 @@
           "named": true
         },
         {
-          "type": "object",
+          "type": "number",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "type",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "type_definition",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
+        },
         {
-          "type": "type",
+          "type": "operator",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "var_definition",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "literal",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "%dw",
+    "type": "!",
     "named": false
   },
   {
-    "type": "(",
+    "type": "*",
     "named": false
   },
   {
-    "type": ")",
+    "type": "*/",
     "named": false
   },
   {
-    "type": ",",
+    "type": "+",
     "named": false
   },
   {
-    "type": "---",
+    "type": "-",
     "named": false
   },
   {
@@ -384,7 +152,15 @@
     "named": false
   },
   {
-    "type": ":",
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<=",
     "named": false
   },
   {
@@ -392,91 +168,99 @@
     "named": false
   },
   {
-    "type": "Any",
+    "type": "==",
     "named": false
   },
   {
-    "type": "Array",
+    "type": ">",
     "named": false
   },
   {
-    "type": "DateTime",
+    "type": ">=",
     "named": false
   },
   {
-    "type": "Null",
+    "type": ">>",
     "named": false
   },
   {
-    "type": "Number",
+    "type": "and",
     "named": false
   },
   {
-    "type": "Object",
+    "type": "as",
     "named": false
   },
   {
-    "type": "String",
+    "type": "async",
     "named": false
   },
   {
-    "type": "[",
+    "type": "case",
     "named": false
   },
   {
-    "type": "]",
+    "type": "default",
     "named": false
   },
   {
-    "type": "application/dw",
+    "type": "do",
     "named": false
   },
   {
-    "type": "application/java",
+    "type": "else",
     "named": false
   },
   {
-    "type": "application/json",
+    "type": "enum",
     "named": false
   },
   {
-    "type": "application/xml",
+    "type": "false",
     "named": false
   },
   {
-    "type": "csv",
+    "type": "for",
     "named": false
-  },
-  {
-    "type": "dw",
-    "named": false
-  },
-  {
-    "type": "float",
-    "named": true
   },
   {
     "type": "fun",
     "named": false
   },
   {
-    "type": "identifier",
-    "named": true
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "import",
+    "named": false
   },
   {
     "type": "input",
     "named": false
   },
   {
-    "type": "integer",
-    "named": true
-  },
-  {
-    "type": "java",
+    "type": "is",
     "named": false
   },
   {
-    "type": "json",
+    "type": "name",
+    "named": true
+  },
+  {
+    "type": "not",
+    "named": false
+  },
+  {
+    "type": "ns",
+    "named": false
+  },
+  {
+    "type": "null",
+    "named": false
+  },
+  {
+    "type": "or",
     "named": false
   },
   {
@@ -484,19 +268,15 @@
     "named": false
   },
   {
-    "type": "string",
-    "named": true
-  },
-  {
-    "type": "text",
+    "type": "private",
     "named": false
   },
   {
-    "type": "text/csv",
+    "type": "throw",
     "named": false
   },
   {
-    "type": "text/plain",
+    "type": "true",
     "named": false
   },
   {
@@ -504,19 +284,27 @@
     "named": false
   },
   {
+    "type": "unless",
+    "named": false
+  },
+  {
+    "type": "update",
+    "named": false
+  },
+  {
+    "type": "using",
+    "named": false
+  },
+  {
     "type": "var",
     "named": false
   },
   {
-    "type": "xml",
+    "type": "yield",
     "named": false
   },
   {
-    "type": "{",
-    "named": false
-  },
-  {
-    "type": "}",
+    "type": "~=",
     "named": false
   }
 ]
