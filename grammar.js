@@ -30,13 +30,14 @@ module.exports = grammar({
 
   conflicts: ($) => [
     [$.var_declaration, $.expression],
-    [$.object, $.expression]
+    [$.expression, $.type],
+    [$.object, $.type, $.expression]
   ],
 
   word: ($) => $.name,
 
   rules: {
-    source_file: ($) => $.header,
+    source_file: ($) => seq($.header, "---", $.body),
     header: ($) =>
       seq(
         SHEBANG,
@@ -44,13 +45,21 @@ module.exports = grammar({
           choice(
             $.input_statement,
             $.output_statement,
-            $.var_declaration,
-            $.type_declaration,
-            $.ns_declaration,
-            $.fun_declaration,
+            $.declaration,
+            $.comment
           ),
         ),
       ),
+
+    body: ($) =>
+      repeat1($.expression),
+
+    declaration: ($) => choice(
+      $.var_declaration,
+      $.type_declaration,
+      $.ns_declaration,
+      $.fun_declaration,
+    ),
 
     input_statement: ($) =>
       seq("input", field("name", $.name), field("mimeType", MIME_TYPE.short)),
@@ -81,10 +90,19 @@ module.exports = grammar({
       $.function_call,
       $.name,
       $.literal,
-      $.object
+      $.do_expression,
+      $.object,
+      $.array,
+      $.comment
     ),
 
     expression_list: ($) => commaSep1($.expression),
+
+    array: ($) => seq(
+      "[",
+      optional(commaSep1($.expression)),
+      "]"
+    ),
 
     function_call: ($) => choice(
       $._suffix_function_call
@@ -119,6 +137,15 @@ module.exports = grammar({
       ")"
     ),
 
+    do_expression: ($) => seq(
+      "do",
+      "{",
+      repeat1($.declaration),
+      "---",
+      $.expression_list,
+      "}"
+    ),
+
     attribute: ($) => seq(field("name", $.name), $.expression),
 
     literal: ($) => choice($.string, $.number, $.boolean, $.type),
@@ -135,7 +162,9 @@ module.exports = grammar({
 
     name: ($) => /[a-zA-Z][a-zA-Z0-9_]*/,
 
-    type: ($) => choice(
+    type: ($) => $.name,
+
+    _type: ($) => choice(
       "String",
       "Boolean",
       "Number",
@@ -167,5 +196,11 @@ module.exports = grammar({
         )
       )
     ),
+
+    line_comment: ($) => seq("//", optional($.comment_text_sl), /\n/),
+    block_comment: ($) => seq("/*", optional($.comment_text_ml), "*/"),
+    comment_text_sl: ($) => repeat1(/./),
+    comment_text_ml: ($) => repeat1(choice(/.|\n|\r/)),
+    comment: ($) => choice($.line_comment, $.block_comment),
   },
 });
