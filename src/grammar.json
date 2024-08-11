@@ -1,5 +1,6 @@
 {
   "name": "dataweave",
+  "word": "name",
   "rules": {
     "source_file": {
       "type": "SYMBOL",
@@ -66,8 +67,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {
@@ -142,8 +143,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {
@@ -176,8 +177,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {
@@ -210,8 +211,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {
@@ -248,8 +249,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {
@@ -311,8 +312,8 @@
           "name": "function_call"
         },
         {
-          "type": "PATTERN",
-          "value": "[a-zA-Z][a-zA-Z0-9_]*"
+          "type": "SYMBOL",
+          "name": "name"
         },
         {
           "type": "SYMBOL",
@@ -365,8 +366,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {
@@ -402,8 +403,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {
@@ -422,8 +423,8 @@
               "type": "FIELD",
               "name": "key",
               "content": {
-                "type": "PATTERN",
-                "value": "[a-zA-Z][a-zA-Z0-9_]*"
+                "type": "SYMBOL",
+                "name": "name"
               }
             },
             {
@@ -529,8 +530,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {
@@ -610,6 +611,10 @@
           "value": "false"
         }
       ]
+    },
+    "name": {
+      "type": "PATTERN",
+      "value": "[a-zA-Z][a-zA-Z0-9_]*"
     },
     "type": {
       "type": "CHOICE",
@@ -724,8 +729,8 @@
           "type": "FIELD",
           "name": "name",
           "content": {
-            "type": "PATTERN",
-            "value": "[a-zA-Z][a-zA-Z0-9_]*"
+            "type": "SYMBOL",
+            "name": "name"
           }
         },
         {

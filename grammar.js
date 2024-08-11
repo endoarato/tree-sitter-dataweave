@@ -15,7 +15,6 @@ const MIME_TYPE = {
   ),
 };
 
-const NAME = /[a-zA-Z][a-zA-Z0-9_]*/;
 const URL = seq(/a-z+/, '://', /[a-zA-Z0-9/_%.]+/);
 
 function commaSep1(rule) {
@@ -33,6 +32,8 @@ module.exports = grammar({
     [$.var_declaration, $.expression],
     [$.object, $.expression]
   ],
+
+  word: ($) => $.name,
 
   rules: {
     source_file: ($) => $.header,
@@ -52,22 +53,22 @@ module.exports = grammar({
       ),
 
     input_statement: ($) =>
-      seq("input", field("name", NAME), field("mimeType", MIME_TYPE.short)),
+      seq("input", field("name", $.name), field("mimeType", MIME_TYPE.short)),
 
     output_statement: ($) => seq("output", field("mimeType", MIME_TYPE.long)),
 
     var_declaration: ($) =>
-      seq("var", field("name", NAME), "=", choice($.expression, $.object)),
+      seq("var", field("name", $.name), "=", choice($.expression, $.object)),
 
     type_declaration: ($) =>
-      seq("type", field("name", NAME), "=", choice($.type, $.object)),
+      seq("type", field("name", $.name), "=", choice($.type, $.object)),
 
-    ns_declaration: ($) => seq("ns", field("name", NAME), field("url", URL)),
+    ns_declaration: ($) => seq("ns", field("name", $.name), field("url", URL)),
 
     fun_declaration: ($) =>
       seq(
         "fun",
-        field("name", NAME),
+        field("name", $.name),
         "(",
         optional($.parameter_list),
         ")",
@@ -78,7 +79,7 @@ module.exports = grammar({
 
     expression: ($) => choice(
       $.function_call,
-      NAME,
+      $.name,
       $.literal,
       $.object
     ),
@@ -90,7 +91,7 @@ module.exports = grammar({
     ),
 
     _suffix_function_call: ($) => seq(
-      field("name", NAME),
+      field("name", $.name),
       "(",
       optional($.expression_list),
       ")"
@@ -98,12 +99,12 @@ module.exports = grammar({
 
     _infix_function_call: ($) => seq(
       $.expression,
-      field("name", NAME),
+      field("name", $.name),
       $.expression
     ),
 
     object: ($) => seq(
-      optional(field("key", NAME)),
+      optional(field("key", $.name)),
       optional($._object_attr_list),
       optional(":"),
       "{",
@@ -118,7 +119,7 @@ module.exports = grammar({
       ")"
     ),
 
-    attribute: ($) => seq(field("name", NAME), $.expression),
+    attribute: ($) => seq(field("name", $.name), $.expression),
 
     literal: ($) => choice($.string, $.number, $.boolean, $.type),
 
@@ -131,6 +132,8 @@ module.exports = grammar({
     int: ($) => /\d+/,
 
     boolean: ($) => choice("true", "false"),
+
+    name: ($) => /[a-zA-Z][a-zA-Z0-9_]*/,
 
     type: ($) => choice(
       "String",
@@ -156,7 +159,7 @@ module.exports = grammar({
     parameter_list: ($) => commaSep1($.param),
 
     param: ($) => seq(
-      field("name", NAME),
+      field("name", $.name),
       optional(
         seq(
           ":",
