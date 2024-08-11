@@ -1,14 +1,12 @@
-(keyword) @keyword
-(number) @number
-(comment) @comment
-(operator) @operator
+[
+    "input"
+    "var"
+    "type"
+    "ns"
+    "fun"
+] @keyword
+
 (type) @type
 (string) @string
-
-(array
-    "[" @punctuation.bracket
-    "]" @punctuation.bracket)
-
-(object
-    "{" @punctuation.bracket
-    "}" @punctuation.bracket)
+(number) @number
+(boolean) @boolean

@@ -1,142 +1,168 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-check
 
-const PREC = [
-  "usingunary",
-  "as",
-  "muldiv",
-  "mathdata",
-  "poscompare",
-  "negcompare",
-  "and",
-  "or",
-  "patternselector",
-  "ifelse",
-].reduce((result, name, index) => {
-  result[name] = index;
-  return result;
-}, {});
+const FLOAT = /\d*.\d+/;
 
-const OPERATORS = {
-  math: ["+", "-", "*", "/"],
-  equality: [">", "<", ">=", "<=", "==", "~="],
-  logical: ["not", "!", "and", "or"],
-  array: [">>", "<<", "+", "-"],
-  scope: ["do", "using"],
-  flow: ["if", "else"],
-  update: ["update"],
-  assignment: ["="],
+const SHEBANG = seq("%dw", FLOAT);
+
+const MIME_TYPE = {
+  short: choice("json", "xml", "dw", "csv"),
+  long: choice(
+    "application/json",
+    "application/xml",
+    "application/dw",
+    "application/csv",
+  ),
 };
 
-const ALLOPS = choice(
-  "+",
-  "-",
-  "*",
-  "/",
-  ">",
-  "<",
-  ">=",
-  "<=",
-  "==",
-  "~=",
-  "not",
-  "!",
-  "and",
-  "or",
-  ">>",
-  "<<",
-  "+",
-  "-",
-  "do",
-  "using",
-  "if",
-  "else",
-  "update",
-  "=",
-);
+const NAME = /[a-zA-Z][a-zA-Z0-9_]*/;
+const URL = seq(/a-z+/, '://', /[a-zA-Z0-9/_%.]+/);
 
-const KEYWORDS = choice(
-  "as",
-  "async",
-  "case",
-  "default",
-  "enum",
-  "false",
-  "for",
-  "fun",
-  "import",
-  "input",
-  "is",
-  "ns",
-  "null",
-  "output",
-  "private",
-  "throw",
-  "true",
-  "type",
-  "unless",
-  "var",
-  "yield",
-);
+function commaSep1(rule) {
+  return seq(rule, repeat(seq(",", rule)));
+}
 
-const FLOAT = /\d*\.\d+/;
-const INT = /\d+/;
-
-const ALL_TYPES = choice(
-  "String",
-  "Boolean",
-  "Number",
-  "Regex",
-  "Null",
-  "Date",
-  "DateTime",
-  "LocalDateTime",
-  "LocalTime",
-  "Time",
-  "Period",
-  "Array",
-  "Object",
-  "Function",
-  "Any",
-  "Nothing",
-  "Union",
-  "Intersection",
-  "Literal",
-);
+function commaSep(rule) {
+  return optional(commaSep1(rule));
+}
 
 module.exports = grammar({
   name: "dataweave",
 
-  word: ($) => $.name,
+  conflicts: ($) => [
+    [$.var_declaration, $.expression],
+    [$.object, $.expression]
+  ],
 
   rules: {
-    source_file: ($) => seq($.header, $.body),
-    header: ($) => seq("%dw", field("version", FLOAT), repeat($._any), "---"),
-    body: ($) => repeat1($._any),
-    identifier: ($) => choice($.keyword, $.name),
-    name: ($) => /[a-zA-Z]+/,
-    keyword: ($) => KEYWORDS,
-    number: ($) => choice(INT, FLOAT),
-    _any: ($) =>
-      choice(
-        $.number,
-        $.comment,
-        $.type,
-        $.string,
-        $.operator,
-        $.array,
-        $.object,
-        $.identifier,
+    source_file: ($) => $.header,
+    header: ($) =>
+      seq(
+        SHEBANG,
+        repeat(
+          choice(
+            $.input_statement,
+            $.output_statement,
+            $.var_declaration,
+            $.type_declaration,
+            $.ns_declaration,
+            $.fun_declaration,
+          ),
+        ),
       ),
-    line_comment: ($) => seq("//", optional($.comment_text_sl), /\n/),
-    block_comment: ($) => seq("/*", optional($.comment_text_ml), "*/"),
-    comment_text_sl: ($) => repeat1(/./),
-    comment_text_ml: ($) => repeat1(choice(/.|\n|\r/)),
-    comment: ($) => choice($.line_comment, $.block_comment),
-    operator: ($) => ALLOPS,
-    type: ($) => ALL_TYPES,
-    string: ($) => /".*"/,
-    object: ($) => seq(optional(seq($.name, ":")), "{", repeat($._any), "}"),
-    array: ($) => seq("[", repeat($._any), "]"),
+
+    input_statement: ($) =>
+      seq("input", field("name", NAME), field("mimeType", MIME_TYPE.short)),
+
+    output_statement: ($) => seq("output", field("mimeType", MIME_TYPE.long)),
+
+    var_declaration: ($) =>
+      seq("var", field("name", NAME), "=", choice($.expression, $.object)),
+
+    type_declaration: ($) =>
+      seq("type", field("name", NAME), "=", choice($.type, $.object)),
+
+    ns_declaration: ($) => seq("ns", field("name", NAME), field("url", URL)),
+
+    fun_declaration: ($) =>
+      seq(
+        "fun",
+        field("name", NAME),
+        "(",
+        optional($.parameter_list),
+        ")",
+        optional(seq("->", $.type)),
+        "=",
+        $.expression,
+      ),
+
+    expression: ($) => choice(
+      $.function_call,
+      NAME,
+      $.literal,
+      $.object
+    ),
+
+    expression_list: ($) => commaSep1($.expression),
+
+    function_call: ($) => choice(
+      $._suffix_function_call
+    ),
+
+    _suffix_function_call: ($) => seq(
+      field("name", NAME),
+      "(",
+      optional($.expression_list),
+      ")"
+    ),
+
+    _infix_function_call: ($) => seq(
+      $.expression,
+      field("name", NAME),
+      $.expression
+    ),
+
+    object: ($) => seq(
+      optional(field("key", NAME)),
+      optional($._object_attr_list),
+      optional(":"),
+      "{",
+      repeat($.expression),
+      "}"
+    ),
+
+    _object_attr_list: ($) => seq(
+      "@",
+      "(",
+      commaSep($.attribute),
+      ")"
+    ),
+
+    attribute: ($) => seq(field("name", NAME), $.expression),
+
+    literal: ($) => choice($.string, $.number, $.boolean, $.type),
+
+    string: ($) => seq('"', /.*/, '"'),
+
+    number: ($) => choice($.float, $.int),
+
+    float: ($) => /\d*\.\d+/,
+
+    int: ($) => /\d+/,
+
+    boolean: ($) => choice("true", "false"),
+
+    type: ($) => choice(
+      "String",
+      "Boolean",
+      "Number",
+      "Regex",
+      "Null",
+      "Date",
+      "Datetime",
+      "LocalDateTime",
+      "LocalTime",
+      "Time",
+      "Period",
+      "Array",
+      "Object",
+      "Function",
+      "Any",
+      "Nothing",
+      "Union",
+      "Intersection",
+      "Literal"
+    ),
+    parameter_list: ($) => commaSep1($.param),
+
+    param: ($) => seq(
+      field("name", NAME),
+      optional(
+        seq(
+          ":",
+          $.type
+        )
+      )
+    ),
   },
 });

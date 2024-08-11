@@ -16,6 +16,7 @@ type B = 18
 
 fun f() = payload
 fun g(a: String, b: 18) = b
+fun h(a: String, b: Number, c: Boolean) -> Object = {}
 ---
 
 do {
